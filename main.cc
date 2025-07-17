@@ -9,7 +9,7 @@
 #include "sdl_wrapper.hh"
 
 int main() {
-    sdlw::SDLWrapper sdl(400, 600);
+    sdlw::SDLWindow sdl(400, 600, "Flag of Japan");
     int cx = 300, cy = 200, radius = 100;
 
     while(sdl.isRunning()) {

@@ -2,20 +2,22 @@
 #include <stdexcept>
 
 namespace sdlw {
-    class  SDLWrapper {
+    class  SDLWindow {
         SDL_Window *window;
         SDL_Renderer *renderer;
         SDL_Event event;
         bool running;
 
+        char *title;
         int height;
         int width;
         
         public:
 
-        SDLWrapper(int height, int width) {
+        SDLWindow(int height, int width, std::string title="SDL Window") {
             this->height = height;
             this->width = width;
+            this->title = (char *) title.c_str();
 
             if (SDL_Init(SDL_INIT_VIDEO) != 0) {
                 SDL_Log("SDL_Init Error: %s", SDL_GetError());
@@ -23,7 +25,7 @@ namespace sdlw {
             }
 
             this->window = SDL_CreateWindow(
-                "SDL Circle Example",
+                this->title,
                 SDL_WINDOWPOS_CENTERED, 
                 SDL_WINDOWPOS_CENTERED, 
                 this->width, 
@@ -50,7 +52,7 @@ namespace sdlw {
             this->running = true;
         }
 
-        ~SDLWrapper() {
+        ~SDLWindow() {
             SDL_DestroyRenderer(this->renderer);
             SDL_DestroyWindow(this->window);
             SDL_Quit();
