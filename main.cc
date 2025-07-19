@@ -2,29 +2,52 @@
  * 
  * For testing the library under development.
  * 
- * Currently, it draws a red circle inside a white space, like the flag of
- * Japan. In future it can contain something more cool.
+ * Currently, it just shows a red ball bouncing around. Nothing too spectacular.
  */
 
 #include "sdl_wrapper.hh"
 
-int main() {
-    sdlw::SDLWindow sdl(400, 600, "Flag of Japan");
-    int cx = 300, cy = 200, radius = 100;
-
-    while(sdl.isRunning()) {
-        sdl.setColor(255, 255, 255);
-        sdl.clear();
-
-        for (int x = -radius; x <= radius; x++) {
-            for (int y = -radius; y <= radius; y++) {
-                if (x*x + y*y <= radius*radius) {
-                    sdl.setColor(255, 0, 0);
-                    sdl.drawPoint(cx + x, cy + y);
-                }
+void drawBall(sdlw::SDLWindow &sdl, int cx, int cy, int radius) {
+    for (int x = -radius; x <= radius; x++) {
+        for (int y = -radius; y <= radius; y++) {
+            if (x*x + y*y <= radius*radius) {
+                sdl.drawPoint(cx + x, cy + y);
             }
         }
+    }
+}
 
+int main() {
+    const int screenHeight = 600, screenWidth = 800;
+
+    sdlw::SDLWindow sdl(screenHeight, screenWidth, "Bouncy Ball");
+    int cx = screenWidth / 2, cy = screenHeight / 2, radius = 100;
+    int vx = 2, vy = 2;
+
+    while(sdl.isRunning()) {
+        // Background
+        sdl.setColor(0, 50, 100);
+        sdl.clear();
+
+        // Ball
+        sdl.setColor(221, 68, 102);
+        drawBall(sdl, cx, cy, radius);
+        cx += vx;
+        cy += vy;
+        
+        // Movement of the Ball
+        if (cx < radius || cx + radius > screenWidth) {
+            vx = -vx;
+        }
+        if (cy < radius || cy + radius > screenHeight) {
+            vy = -vy;
+        }
+
+        // A Line from top-left corner to the Ball
+        sdl.setColor(0, 250, 100);
+        sdl.drawLine(sdlw::point(0, 0), sdlw::point(cx, cy));
+
+        // Render Command
         sdl.render();
     }
 

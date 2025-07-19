@@ -1,7 +1,24 @@
 #include <SDL.h>
 #include <stdexcept>
 
+#include "tuple.hh"
+
 namespace sdlw {
+    struct Point {
+        int x;
+        int y;
+
+        Point(int x, int y) {
+            this->x = x;
+            this->y = y;
+        }
+    };
+
+    Point point(int x, int y) {
+        Point p(x, y);
+        return p;
+    }
+    
     class  SDLWindow {
         SDL_Window *window;
         SDL_Renderer *renderer;
@@ -78,9 +95,26 @@ namespace sdlw {
         void drawPoint(int x, int y) {
             SDL_RenderDrawPoint(this->renderer, x, y);
         }
+        void drawPoint(Point p) {
+            SDL_RenderDrawPoint(this->renderer, p.x, p.y);
+        }
+
+        void drawLine(Point p1, Point p2) {
+            SDL_RenderDrawLine(this->renderer, p1.x, p1.y, p2.x, p2.y);
+        }
+
+        void drawRect(int topx, int topy, int width, int height) {
+            SDL_Rect rect = {topx, topy, width, height};
+            SDL_RenderDrawRect(this->renderer, &rect);
+        }
+
+        void fillRect(int topx, int topy, int width, int height) {
+            SDL_Rect rect = {topx, topy, width, height};
+            SDL_RenderFillRect(this->renderer, &rect);
+        }
 
         void render() {
             SDL_RenderPresent(this->renderer);
-        }
+        }   
     };
 }
