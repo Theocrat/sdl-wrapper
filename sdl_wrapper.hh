@@ -1,8 +1,6 @@
 #include <SDL.h>
 #include <stdexcept>
 
-#include "tuple.hh"
-
 namespace sdlw {
     struct Point {
         int x;
@@ -103,13 +101,27 @@ namespace sdlw {
             SDL_RenderDrawLine(this->renderer, p1.x, p1.y, p2.x, p2.y);
         }
 
-        void drawRect(int topx, int topy, int width, int height) {
-            SDL_Rect rect = {topx, topy, width, height};
+        void drawRect(Point topleft, Point bottomright) {
+            int width = bottomright.x - topleft.x;
+            int height = bottomright.y - topleft.y;
+            SDL_Rect rect = {topleft.x, topleft.y, width, height};
             SDL_RenderDrawRect(this->renderer, &rect);
         }
 
-        void fillRect(int topx, int topy, int width, int height) {
-            SDL_Rect rect = {topx, topy, width, height};
+        void drawRect(Point topleft, int width, int height) {
+            SDL_Rect rect = {topleft.x, topleft.y, width, height};
+            SDL_RenderDrawRect(this->renderer, &rect);
+        }
+
+        void fillRect(Point topleft, int width, int height) {
+            SDL_Rect rect = {topleft.x, topleft.y, width, height};
+            SDL_RenderFillRect(this->renderer, &rect);
+        }
+
+        void fillRect(Point topleft, Point bottomright) {
+            int width = bottomright.x - topleft.x;
+            int height = bottomright.y - topleft.y;
+            SDL_Rect rect = {topleft.x, topleft.y, width, height};
             SDL_RenderFillRect(this->renderer, &rect);
         }
 

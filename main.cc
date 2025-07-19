@@ -23,6 +23,7 @@ int main() {
     sdlw::SDLWindow sdl(screenHeight, screenWidth, "Bouncy Ball");
     int cx = screenWidth / 2, cy = screenHeight / 2, radius = 100;
     int vx = 2, vy = 2;
+    int radius_by_sqrt_2 = 71;
 
     while(sdl.isRunning()) {
         // Background
@@ -45,7 +46,11 @@ int main() {
 
         // A Line from top-left corner to the Ball
         sdl.setColor(0, 250, 100);
-        sdl.drawLine(sdlw::point(0, 0), sdlw::point(cx, cy));
+        sdl.drawLine({0, 0}, {cx, cy});
+
+        // Sample Rectangle
+        sdl.setColor(80, 80, 80, 80);
+        sdl.fillRect({0, 0}, {cx - radius_by_sqrt_2, cy - radius_by_sqrt_2});
 
         // Render Command
         sdl.render();
